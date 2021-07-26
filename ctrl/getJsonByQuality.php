@@ -9,4 +9,4 @@ $main = new main();
 $main->parseJson();
 $jsonByQuality = $main->getJsonByQuality();
 
-print_r(json_encode($jsonByQuality)) ;
+echo $jsonByQuality;

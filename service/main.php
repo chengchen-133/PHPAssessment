@@ -84,7 +84,7 @@ class main{
             //print_r($value);
             if ($value['id'] == $id){
                 return $result = $value['rarity'];
-                //array_push($arr,$value['rarity']);
+
             }
             //print_r($arr);
         }
@@ -100,7 +100,7 @@ class main{
         $data = json_decode(file_get_contents('../json/config.json'),true);
         foreach ($data as $key => $value){
             if ($key == $id){
-                print_r($value);
+                //print_r($value);
                 return $result = $value["combatPoints"];
             }
             return -1;
