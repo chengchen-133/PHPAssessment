@@ -2,20 +2,23 @@
 include '../model/soldier.php';
 
 class main{
+
     function parseJson(){
         $contents = file_get_contents('../json/config.army.model.json');
         $initialData = json_decode($contents, true);
-        //    $redis = new Redis();
-        //    $redis->connect("127.0.0.1");
+            //$redis = new Redis();
+            //$redis->connect("127.0.0.1");
         $arr = array();
         foreach ($initialData as $key => $value){
             $soldier = new soldierClass($value["id"],$value["Rarity"],$value["Quality"],$value["UnlockArena"],$value["CombatPoints"],$value["Cvc"]);
             array_push($arr,$soldier);
+            //$redis->hset($value['id'],json_encode($arr));
         }
         try {
             file_put_contents("../json/config.json", json_encode($arr));
         }catch (Exception $e){
             echo $e->getMessage();
+
         }
     }
 
@@ -40,16 +43,7 @@ class main{
                 }
             }
         }
-        try {
-            if (!empty($arr)){
-                return $arr;
-            }else{
-                $error = '没有士兵';
-                throw new myException($error);
-            }
-        }catch (Exception $e){
-            echo $e->getMessage();
-        }
+        return $arr;
 
     }
 
@@ -63,13 +57,13 @@ class main{
         $data = json_decode(file_get_contents('../json/config.json'),true);
         $arr = array();
         foreach ($data as $key => $value){
-            if ($value["cvc"] <= $cvc){
-                //print_r($value);
+            //print_r($value);
+            if ($value['cvc'] <= $cvc){
+                print_r($value);
                 array_push($arr,$value);
             }
         }
         return $arr;
-        //print_r($arr);
     }
 
     /**
@@ -79,15 +73,19 @@ class main{
      */
     function getRarity($id){
         $data = json_decode(file_get_contents('../json/config.json'),true);
-        //$arr = array();
+        $arr = null;
         foreach ($data as $key => $value){
-            //print_r($value);
-            if ($value['id'] == $id){
-                return $result = $value['rarity'];
-
+            print_r($id);
+            if ($value["id"] == $id){
+                print_r($value['id']);
+                //return $result = $value['rarity'];
+                //array_push($arr,$value['rarity']);
+                $arr = $value['rarity'];
+                break;
             }
-            //print_r($arr);
         }
+        //print_r($arr);
+        return $arr;
 
     }
 
@@ -103,8 +101,8 @@ class main{
                 //print_r($value);
                 return $result = $value["combatPoints"];
             }
-            return -1;
         }
+        return -1;
     }
 
 
@@ -117,11 +115,11 @@ class main{
         $data = json_decode(file_get_contents('../json/config.json'),true);
         $arr = array();
         foreach ($data as $key => $value){
-            if ($value["UnlockArena"]>0){
+            if ($value["unlockArena"]>0){
                 array_push($arr,$value);
-                //array_column($arr,NULL,'Quality');
             }
         }
+        //print_r($arr);
         return $arr;
     }
 }
