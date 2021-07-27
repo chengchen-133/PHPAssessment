@@ -89,3 +89,14 @@ rarity quality cvc
 ```php
 该稀有度cvc合法且已解锁的所有士兵 
 ```
+## 4.代码结构
+### 4.1 代码结构目录
+```php
+|---ctrl
+|
+|---json
+|
+|---modle
+|
+|---service
+```
